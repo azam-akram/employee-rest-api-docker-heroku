@@ -116,4 +116,3 @@ Client sends employee data to be added in xml or json structure and set HTTP hea
 ```
 - Delete a record by employee id
 > DELETE http://{serverurl:port}/employees/{id}
-# docker-rest-api-service
