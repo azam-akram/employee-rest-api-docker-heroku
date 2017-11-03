@@ -36,6 +36,35 @@ docker run -p 8889:8080 -t -i dockerrestapiservice
 ``` 
 
 ## Deployment
+
+Login to heroku
+```
+heroku login
+```
+Then login to container registry
+```
+heroku container:login
+```
+Now create heroku application
+```
+heroku create
+```
+Heroku assigns a random generated name to your application, like salty-fortress-1234. You can rename that name (I explain how to rename your heroku app below)
+
+Now it is time to push your docker container to heroku
+```
+heroku container:push web
+```
+### Rename your heroku application
+- Go to your heroku dashboard, https://dashboard.heroku.com
+- Select your newly created application and go to Setting tab
+- Rename your application, you will get a warning that renaming application on web page does not automatically change the reference in your local working copy. you have to rename it manually in your local working copy,
+```
+git remote rm heroku
+heroku git:remote -a new_name_of_your_application
+```
+
+### Access REST API
 The rest service docker container is deployed on Heroku and can be accessed by,
 https://employee-rest-docker.herokuapp.com/employees/all
 
