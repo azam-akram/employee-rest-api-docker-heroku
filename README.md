@@ -1,19 +1,27 @@
-# Employee REST API service contained in docker
+# A docker container for REST API hosted on Heroku cloud
 
-This maven project demonstrate a REST API service contained in a Docker. The application consists of embedded Jetty Server.
-The web service maintains employee
-information in an organisation. The employee information can be manipulated (Add, delete, fetch) by REST APIs.
+## Technical description
+This maven project demonstrates,
+- A Java Jersey REST API service
+- Runs over embedded Jetty Server
+- Imaged in a Docker container
+- The docker container is deployed on Heroku cloud
+
+## What it does?
+The web service maintains employee information in an organisation. The employee information can be manipulated (Add, delete, fetch) by REST APIs.
 
 ## What it covers?
+- Maven project structure
+  - Handling build dependencies, plugins, packaging..
+  - Use of external libraries in maven projects, like logger, String utilities..
+- Embedding Jetty server in application.
 - REST API resources
 	- HTTP request handling
 	- Data Transfer Object (DTO)
 	- Converting Java POJO to/from XML and JSON 
 - Dockerizing an application
-- Maven project structure
-  - Handling build dependencies, plugins, packaging..
-  - Use of external libraries in maven projects, like logger, String utilities..
-- Embedding Jetty server in application.
+- Deploying docker container on Heroku cloud
+
 
 ## Dockerizing the application
 docker build,
@@ -28,10 +36,10 @@ docker run -p 8889:8080 -t -i dockerrestapiservice
 ``` 
 
 ## Deployment
-The rest service is also deployed on Heroku and can be accessed by,
-> https://employee-rest-service.herokuapp.com/employees/all
+The rest service docker container is deployed on Heroku and can be accessed by,
+https://employee-rest-docker.herokuapp.com/employees/all
 
-For Heroku deployment look at my other repository (https://github.com/azam-akram/employee_rest_web_services)
+For application Heroku deployment (without docker container) look at my other repository (https://github.com/azam-akram/employee_rest_web_services)
 
 ## API methods
 Following API methods are supported,
