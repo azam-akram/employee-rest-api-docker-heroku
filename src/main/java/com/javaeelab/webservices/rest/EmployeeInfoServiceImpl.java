@@ -2,13 +2,16 @@ package com.javaeelab.webservices.rest;
 
 import com.javaeelab.webservices.rest.model.EmployeeDTO;
 import com.javaeelab.webservices.rest.model.EmployeesDTO;
-
-import java.util.concurrent.atomic.AtomicInteger;
+import org.apache.log4j.Logger;
+import org.hibernate.SessionFactory;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.Query;
+import org.hibernate.HibernateException;
+import java.util.List;
 
 /**
  * @author azam.akram
- *
- * Employee Information Service: A singleton
  *
  * Manages organization's employee record.
  *
@@ -16,49 +19,133 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 
+    private final static Logger logger = Logger.getLogger(EmployeeInfoApiApp.class);
+
     private EmployeesDTO employees = new EmployeesDTO();
 
-    private AtomicInteger empId = new AtomicInteger(0);
+    private SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();
 
     @Override
     public EmployeesDTO getAllEmployees() {
+        Transaction tx = null;
+        Session session = sessionFactory.openSession();
+        try {
+            tx = session.beginTransaction();
+            // Should be Java class name instead of actual database table name
+            Query query = session.createQuery("from EmployeeDTO");
+            List<EmployeeDTO> employeeList = (List<EmployeeDTO>) query.list();
+            employees.setOrgName("My Organization");
+            employees.setEmployees(employeeList);
+
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
         return employees;
     }
 
     @Override
     public EmployeesDTO getEmployeeById(int id) {
-
-        EmployeesDTO empDTO = new EmployeesDTO();
-        for (EmployeeDTO emp: employees.getEmployees()) {
-            if (emp.getId() == id) {
-                empDTO.getEmployees().add(emp);
-                return empDTO;
+        Transaction tx = null;
+        Session session = sessionFactory.openSession();
+        try {
+            tx = session.beginTransaction();
+            // Should be Java class name instead of actual database table name
+            Query query = session.createQuery("from EmployeeDTO where id = :id");
+            query.setParameter("id", id);
+            List<EmployeeDTO> employee = (List<EmployeeDTO>) query.list();
+            employees.setOrgName("My Organization");
+            employees.setEmployees(employee);
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
             }
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
-        return null;
+        return employees;
     }
 
     @Override
     public void addEmployee(EmployeesDTO employeesDTO) {
 
         employees.setOrgName(employeesDTO.getOrgName());
+        Session session = sessionFactory.openSession();
+        Transaction tx = null;
 
-        for (EmployeeDTO emp: employeesDTO.getEmployees()) {
-            EmployeeDTO newEmployee = new EmployeeDTO();
-            newEmployee.setId(empId.incrementAndGet());
-            newEmployee.setName(emp.getName());
-            newEmployee.setDepartment(emp.getDepartment());
-            employees.getEmployees().add(newEmployee);
+        try {
+            for (EmployeeDTO emp: employeesDTO.getEmployees()) {
+                tx = session.beginTransaction();
+                session.save(emp);
+                tx.commit();
+                employees.getEmployees().add(emp);
+            }
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean deleteEmployee(int id) {
-        for (EmployeeDTO emp: employees.getEmployees()) {
-            if (emp.getId() == id) {
-                return employees.getEmployees().remove(emp);
+    public void updateEmployee(EmployeeDTO employeeDTO) {
+        Transaction tx = null;
+        Session session = sessionFactory.openSession();
+        try {
+            tx = session.beginTransaction();
+            EmployeeDTO employee = (EmployeeDTO) session.get(EmployeeDTO.class, employeeDTO.getId());
+            if(employeeDTO.getName() != null) {
+                employee.setName(employeeDTO.getName());
             }
+            if(employeeDTO.getDepartment() != null) {
+                employee.setDepartment(employeeDTO.getDepartment());
+            }
+            session.update(employee);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
-        return false;
+    }
+
+    @Override
+    public void deleteEmployee(int id) {
+        Transaction tx = null;
+        Session session = sessionFactory.openSession();
+        try {
+            tx = session.beginTransaction();
+            EmployeeDTO employee = (EmployeeDTO) session.get(EmployeeDTO.class, id);
+            session.delete(employee);
+            session.getTransaction().commit();
+
+            // OR using Hibernate Query Language
+            // Should be Java class name instead of actual database table name
+            /*Query query = session.createQuery("delete from EmployeeDTO where id = :id");
+            query.setParameter("id", id);
+            int result = query.executeUpdate();
+            if (result > 0) {
+                logger.info("Employee with id " + id + " is deleted");
+            }*/
+
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
     }
 }

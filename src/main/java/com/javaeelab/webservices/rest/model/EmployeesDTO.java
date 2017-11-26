@@ -1,7 +1,7 @@
 package com.javaeelab.webservices.rest.model;
 
-import java.util.Set;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -23,7 +23,7 @@ public class EmployeesDTO {
 
     private String orgName;
 
-    private Set<EmployeeDTO> employees = new HashSet<EmployeeDTO>();
+    private List<EmployeeDTO> employees = new ArrayList<EmployeeDTO>();
 
     @XmlElement( name = "orgName")
     public String getOrgName() {
@@ -36,11 +36,11 @@ public class EmployeesDTO {
 
     @XmlElementWrapper ( name = "employees")
     @XmlElement( name = "employee")
-    public Set<EmployeeDTO> getEmployees() {
+    public List<EmployeeDTO> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(Set<EmployeeDTO> employees) {
+    public void setEmployees(List<EmployeeDTO> employees) {
         this.employees = employees;
     }
 }

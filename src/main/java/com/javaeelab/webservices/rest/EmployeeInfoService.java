@@ -1,5 +1,6 @@
 package com.javaeelab.webservices.rest;
 
+import com.javaeelab.webservices.rest.model.EmployeeDTO;
 import com.javaeelab.webservices.rest.model.EmployeesDTO;
 
 /**
@@ -17,5 +18,7 @@ public interface EmployeeInfoService {
 
     void addEmployee(EmployeesDTO employeesDTO);
 
-    boolean deleteEmployee(int id);
+    void updateEmployee(EmployeeDTO employeeDTO);
+
+    void deleteEmployee(int id);
 }

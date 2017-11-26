@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.javaeelab.webservices.rest.model.EmployeeDTO" table="EMPLOYEE">
+        <id name="id" type="int" column="id">
+            <generator class="native"/>
+        </id>
+        <property name="name">
+            <column name="name"/>
+        </property>
+        <property name="department">
+            <column name="department"/>
+        </property>
+    </class>
+</hibernate-mapping>
