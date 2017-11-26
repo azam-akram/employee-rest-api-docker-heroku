@@ -9,9 +9,12 @@ package com.javaeelab.webservices.rest;
 
 public class EmployeeInfoServiceFactory {
 
-    private static EmployeeInfoService employeeInfoService = new EmployeeInfoServiceImpl();
+    private static EmployeeInfoService employeeInfoService;
 
     public static EmployeeInfoService getEmployeeInfoService() {
+        if(employeeInfoService == null) {
+            employeeInfoService = new EmployeeInfoServiceImpl();
+        }
         return employeeInfoService;
     }
 }
