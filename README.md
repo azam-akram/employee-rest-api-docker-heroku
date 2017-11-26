@@ -69,6 +69,9 @@ heroku git:remote -a new_name_of_your_application
 The rest service docker container is deployed on Heroku and can be accessed by,
 https://employee-rest-docker.herokuapp.com/employees/all
 
+#### A little hack
+Though the code in this repository support hibernate for persistent storage, but the live demo on heroku doesn't support persistent storage (as yet). It caches the employee records, that are flushed out. 
+
 For application Heroku deployment (without docker container) look at my other repository (https://github.com/azam-akram/employee_rest_web_services)
 
 ## API methods
