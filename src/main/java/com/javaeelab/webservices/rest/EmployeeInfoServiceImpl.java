@@ -16,13 +16,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 
-    private static EmployeeInfoService employeeInfoService = new EmployeeInfoServiceImpl();
-
-    // Make this singleton
-    public static EmployeeInfoService getInstance() {
-        return employeeInfoService;
-    }
-
     private EmployeesDTO employees = new EmployeesDTO();
 
     private AtomicInteger empId = new AtomicInteger(0);
