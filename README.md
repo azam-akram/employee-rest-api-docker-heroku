@@ -4,11 +4,12 @@
 This maven project demonstrates,
 - A Java Jersey REST API service
 - Runs over embedded Jetty Server
+- Uses Hibernate for persistent storage
 - Imaged in a Docker container
 - The docker container is deployed on Heroku cloud
 
 ## What it does?
-The web service maintains employee information in an organisation. The employee information can be manipulated (Add, delete, fetch) by REST APIs.
+The web service maintains employee information in an organisation. The employee information can be manipulated (fetch, Add, update, delete) by REST APIs.
 
 ## What it covers?
 - Maven project structure
@@ -18,10 +19,10 @@ The web service maintains employee information in an organisation. The employee 
 - REST API resources
 	- HTTP request handling
 	- Data Transfer Object (DTO)
-	- Converting Java POJO to/from XML and JSON 
+	- Converting Java POJO to/from XML and JSON
+- Hibernate with MySQL
 - Dockerizing an application
 - Deploying docker container on Heroku cloud
-
 
 ## Dockerizing the application
 docker build,
@@ -64,7 +65,7 @@ git remote rm heroku
 heroku git:remote -a new_name_of_your_application
 ```
 
-### Access REST API
+### Live demo of this REST API
 The rest service docker container is deployed on Heroku and can be accessed by,
 https://employee-rest-docker.herokuapp.com/employees/all
 
@@ -113,6 +114,15 @@ Client sends employee data to be added in xml or json structure and set HTTP hea
         </employee>
     </employees>
 </organization>
+```
+- Update information of an employee, send json object with field to update. JSON object must include id of employeee to update.
+> PUT http://{serverurl:port}/employees/update
+``` json
+{
+    "id": 2,
+    "name": "Employee 3",
+    "department": "Research"
+}
 ```
 - Delete a record by employee id
 > DELETE http://{serverurl:port}/employees/{id}
