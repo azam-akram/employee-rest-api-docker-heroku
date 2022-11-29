@@ -1,14 +1,15 @@
 package com.javaeelab.webservices.rest;
 
+import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
 import com.javaeelab.webservices.rest.model.EmployeeDTO;
 import com.javaeelab.webservices.rest.model.EmployeesDTO;
-import org.apache.log4j.Logger;
-import org.hibernate.SessionFactory;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.Query;
-import org.hibernate.HibernateException;
-import java.util.List;
 
 /**
  * @author azam.akram
@@ -18,9 +19,6 @@ import java.util.List;
  */
 
 public class EmployeeInfoServiceImpl implements EmployeeInfoService {
-
-    private final static Logger logger = Logger.getLogger(EmployeeInfoApiApp.class);
-
     private EmployeesDTO employees = new EmployeesDTO();
 
     private SessionFactory sessionFactory = HibernateSessionFactory.getSessionFactory();

@@ -1,8 +1,5 @@
 package com.javaeelab.webservices.rest;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,9 +13,6 @@ import java.util.Properties;
  */
 
 public class PropertyHelper {
-
-    private final static Logger logger = Logger.getLogger(PropertyHelper.class);
-
     private static String SERVER_CONFIG_FILE = "config.properties";
 
     private static Properties properties = new Properties();
@@ -39,9 +33,7 @@ public class PropertyHelper {
             }
 
         } catch (FileNotFoundException e) {
-            logger.error("Problem in reading file: " + e.getMessage());
         } catch (IOException e) {
-            logger.error("Problem loading properties file: " + e.getMessage());
         }
 
         return propertyValue;
